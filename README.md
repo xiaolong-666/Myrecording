@@ -35,4 +35,5 @@
 ## 7月
 - [读取 kvm 虚拟机镜像数据](./读取kvm虚拟机镜像数据.md) 
 - [lightdm问题排查](./lightdm问题排查.md)
-
+- [linux 查看磁盘IO](./linux 查看磁盘IO.md)
+- [Pbuilder 使用](./Pbuilder 使用.md)
