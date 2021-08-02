@@ -109,6 +109,7 @@ I: removing directory /var/cache/pbuilder/build/10962 and its subdirectories
 ```
 
 ## build构建
+### 使用apt source源码构建
 在使用base.tgz创建的 chroot 环境中构建.dsc-file指定的包。此处以定制工具`iso-tailor`的源包为例：
 ```bash
 sudo pbuilder build --basetgz ~/xiaolong.tgz iso-tailor_3.0.1.dsc 
@@ -121,6 +122,34 @@ sudo pbuilder build --basetgz ~/xiaolong.tgz iso-tailor_3.0.1.dsc
 5. 分析源包的依赖关系，并安装编译缺少的包
 6. 编译，并将编译结果存放于`/var/cache/pbuilder/result`目录下
 7. 卸载环境，并清理编译环境，退出
+### 本地源码构建
+注意将base基础包放到`/var/cache/pbuilder/base.tgz`，然后进入源码目录，执行`sudo pdebuild`命令即可：
+```bash
+xiaolong-PC :: gerrit/isotailor » sudo pdebuild                           
+W: /root/.pbuilderrc does not exist
+dh clean
+   dh_clean
+        rm -f debian/debhelper-build-stamp
+        rm -rf debian/.debhelper/
+        rm -f -- debian/iso-tailor.substvars debian/files
+        rm -fr -- debian/iso-tailor/ debian/tmp/
+dpkg-source: info: using source format '3.0 (native)'
+dpkg-source: info: building iso-tailor in iso-tailor_3.0.02.tar.xz
+dpkg-source: info: building iso-tailor in iso-tailor_3.0.02.dsc
+...
+I: cleaning the build env 
+I: removing directory /var/cache/pbuilder/build/28844 and its subdirectories
+I: Current time: Thu Jul 29 10:17:48 CST 2021
+I: pbuilder-time-stamp: 1627525068
+```
+过程如下：
+1. pdebuild命令会先调用dh clean清理模块，清理环境
+2. 然后使用dpkg-source，生成*.dsc和*.tar.xz文件，这两个文件是pbuilder使用的核心文件
+3. 准备chroot环境，将会使用`/var/cache/pbuilder/base.tgz`作为基础环境
+4. 分析依赖关系，生成临时`pbuilder-satisfydepends-dummy`软件包，安装需要的依赖
+5. 构建
+6. 清理环境并退出，生成的文件存放于`/var/cache/pbuilder/result`目录下，如果没有修改存放路径
+
 
 ## clean
 清理构建的目录，执行`pbuilder clean`

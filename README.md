@@ -37,3 +37,7 @@
 - [lightdm问题排查](./lightdm问题排查.md)
 - [linux 查看磁盘IO](./linux 查看磁盘IO.md)
 - [Pbuilder 使用](./Pbuilder 使用.md)
+
+## 8月
+- [gdb 调试](./gdb 调试 /gdb 调试.md)
+
